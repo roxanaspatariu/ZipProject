@@ -1,6 +1,11 @@
 package logic;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+
 import java.io.*;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -43,6 +48,21 @@ public class Unzipper {
                 bos.write(bytesIn, 0, read);
             }
             bos.close();
+            printContent(filePath);
+        }
+
+    public void printContent(String fileName){
+        File file = new File(fileName);
+        List<String> lines=null;
+        try {
+            lines = Files.readLines(file, Charsets.UTF_8);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        for(String line: lines){
+            System.out.println(line);
+            String keepAlex = CharMatcher.anyOf(“alex”).retainFrom(someOtherString);
 
         }
+    }
 }
