@@ -1,11 +1,15 @@
 package logic;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Charsets;
+import com.google.common.base.Splitter;
 import com.google.common.io.Files;
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 
 import java.io.*;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -29,7 +33,7 @@ public class Unzipper {
                 String filePath = destDirectory + File.separator + entry.getName();
                 if (!entry.isDirectory()) {
                     // if the entry is a file, extracts it
-                    extractFile(zipIn, filePath);
+                    extractFile(zipIn, "log.txt");
                 } else {
                     // if the entry is a directory, make the directory
                     File dir = new File(filePath);
@@ -49,20 +53,53 @@ public class Unzipper {
             }
             bos.close();
             printContent(filePath);
+            System.out.println("Entry file " + filePath );
         }
 
     public void printContent(String fileName){
+        String logEntryPattern =
+                "^([\\d.]+) (\\S+) (\\S+) \\[([\\w:/]+\\s[+\\-]\\d{4})\\] \"(.+?)\" (\\d{3}) (\\d+) \"([^\"]+)\" \"([^\"]+)\"";
         File file = new File(fileName);
         List<String> lines=null;
+        int index = 0;
+        Iterable<String> result = null;
         try {
             lines = Files.readLines(file, Charsets.UTF_8);
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-        for(String line: lines){
-            System.out.println(line);
-            String keepAlex = CharMatcher.anyOf(“alex”).retainFrom(someOtherString);
 
-        }
+           /* Pattern p = Pattern.compile(logEntryPattern);
+
+            Matcher matcher = p.matcher(lines.get(index));
+
+            *//*if (!matcher.matches( ) ||
+
+                    9 != matcher.groupCount( )) {
+
+                System.err.println("Bad log entry (or problem with regex?):");
+
+                return;
+
+            }*//*
+
+            System.out.println("IP Address: " + matcher.group(1));
+
+            System.out.println("Date&Time: " + matcher.group(4));
+
+            System.out.println("Request: " + matcher.group(5));
+
+            System.out.println("Response: " + matcher.group(6));
+
+            System.out.println("Bytes Sent: " + matcher.group(7));
+
+            if (!matcher.group(8).equals("-"))
+
+                System.out.println("Referer: " + matcher.group(8));
+
+            System.out.println("Browser: " + matcher.group(9));*/
+
+            System.out.println(lines.get(index));
+            index++;
+        }catch(IOException e){
+        e.printStackTrace();
+    }
     }
 }

@@ -12,6 +12,7 @@ public class UnzipperTest {
     @Test
     public void testUnzipper() throws IOException {
         Unzipper unzipper = new Unzipper();
-        unzipper.unzip("Archive.zip");
+        //unzipper.unzip("Archive.zip");
+        unzipper.printContent("log2.txt");
     }
 }
