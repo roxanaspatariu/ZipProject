@@ -17,10 +17,7 @@ import java.util.Arrays;
  */
 
 @SpringBootApplication
-public class Application implements CommandLineRunner{
-
-    @Autowired
-    LogRepository logRepository;
+public class Application{
 
 
     public static void main(String[] args) {
@@ -35,11 +32,6 @@ public class Application implements CommandLineRunner{
         }
     }
 
-    @Override
-    public void run(String... args) throws Exception{
-        LogEntity logEntity = new LogEntity("128.0.0.1", "user-identifier", "frank", "[10/Oct/2000:13:55:36 -0700]", "GET /apache_pb.gif HTTP/1.0","200", "345");
-        logRepository.save(logEntity);
-    }
 
 
 }

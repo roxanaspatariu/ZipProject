@@ -14,25 +14,21 @@ public class LogEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String ip;
-    private String clientid;
-    private String userid;
     private String date;
     private String request;
-    private String status;
-    private String size;
+    private String response;
+    private String bytesSent;
+    private String browser;
 
     public LogEntity() {
 
     }
 
-    public LogEntity(String ip, String clientid, String userid, String date, String request, String status, String size) {
+    public LogEntity(String ip, String date, String response, String bytesSent) {
         this.ip = ip;
-        this.clientid = clientid;
-        this.userid = userid;
         this.date = date;
-        this.request = request;
-        this.status = status;
-        this.size = size;
+        this.response = response;
+        this.bytesSent = bytesSent;
     }
 
     public String getIp() {
@@ -51,20 +47,12 @@ public class LogEntity {
         this.id = id;
     }
 
-    public String getClientid() {
-        return clientid;
+    public String getbrowser() {
+        return browser;
     }
 
-    public void setClientid(String clientid) {
-        this.clientid = clientid;
-    }
-
-    public String getUserid() {
-        return userid;
-    }
-
-    public void setUserid(String userid) {
-        this.userid = userid;
+    public void setbrowser(String browser) {
+        this.browser = browser;
     }
 
     public String getDate() {
@@ -83,19 +71,24 @@ public class LogEntity {
         this.request = request;
     }
 
-    public String getStatus() {
-        return status;
+    public String getResponse() {
+        return response;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setResponse(String response) {
+        this.response = response;
     }
 
-    public String getSize() {
-        return size;
+    public String getbytesSent() {
+        return bytesSent;
     }
 
-    public void setSize(String size) {
-        this.size = size;
+    public void setbytesSent(String bytesSent) {
+        this.bytesSent = bytesSent;
+    }
+
+    @Override
+    public String toString() {
+        return "Log: " + String.valueOf(id) + " " + ip + " "+ date +  " "+ request + " " + response + " " + bytesSent ;
     }
 }

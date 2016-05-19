@@ -1,105 +1,72 @@
 package logic;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.repository.CrudRepository;
 
-import com.google.common.base.CharMatcher;
-import com.google.common.base.Charsets;
-import com.google.common.base.Splitter;
-import com.google.common.io.Files;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
-
-import java.io.*;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+import java.util.zip.GZIPInputStream;
 
 /**
  * Created by V3790147 on 5/12/2016.
  */
-public class Unzipper {
 
-        private static final int BUFFER_SIZE = 4096;
-        String destDirectory = ".";
+public class Unzipper implements Runnable{
 
-        public void unzip(String zipFilePath) throws IOException {
-            File destDir = new File(destDirectory);
-            if (!destDir.exists()) {
-                destDir.mkdir();
-            }
-            ZipInputStream zipIn = new ZipInputStream(new FileInputStream(zipFilePath));
-            ZipEntry entry = zipIn.getNextEntry();
-            // iterates over entries in the zip file
-            while (entry != null) {
-                String filePath = destDirectory + File.separator + entry.getName();
-                if (!entry.isDirectory()) {
-                    // if the entry is a file, extracts it
-                    extractFile(zipIn, "log.txt");
-                } else {
-                    // if the entry is a directory, make the directory
-                    File dir = new File(filePath);
-                    dir.mkdir();
-                }
-                zipIn.closeEntry();
-                entry = zipIn.getNextEntry();
-            }
-            zipIn.close();
-        }
-        private void extractFile(ZipInputStream zipIn, String filePath) throws IOException {
-            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filePath));
-            byte[] bytesIn = new byte[BUFFER_SIZE];
-            int read = 0;
-            while ((read = zipIn.read(bytesIn)) != -1) {
-                bos.write(bytesIn, 0, read);
-            }
-            bos.close();
-            printContent(filePath);
-            System.out.println("Entry file " + filePath );
-        }
+    InputStream inputStream;
+    LogRepository logRepository;
 
-    public void printContent(String fileName){
-        String logEntryPattern =
-                "^([\\d.]+) (\\S+) (\\S+) \\[([\\w:/]+\\s[+\\-]\\d{4})\\] \"(.+?)\" (\\d{3}) (\\d+) \"([^\"]+)\" \"([^\"]+)\"";
-        File file = new File(fileName);
-        List<String> lines=null;
-        int index = 0;
-        Iterable<String> result = null;
+    public Unzipper(InputStream inputStream, LogRepository logRepository) {
+        this.inputStream = inputStream;
+        this.logRepository = logRepository;
+    }
+
+    @Override
+    public void run() {
+        long beginTime = System.currentTimeMillis();
         try {
-            lines = Files.readLines(file, Charsets.UTF_8);
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    new GZIPInputStream(inputStream)));
+            String lines = "";
+            while ((lines = br.readLine()) != null) {
 
-           /* Pattern p = Pattern.compile(logEntryPattern);
 
-            Matcher matcher = p.matcher(lines.get(index));
+                StringTokenizer matcher = new StringTokenizer(lines, " \t");
 
-            *//*if (!matcher.matches( ) ||
+                String ip = matcher.nextToken();
 
-                    9 != matcher.groupCount( )) {
+                matcher.nextToken();
+                matcher.nextToken("[");
+                String date = matcher.nextToken(" \t");
+                matcher.nextToken("\"");
+                String request = matcher.nextToken();
+                matcher.nextToken(" \t");
 
-                System.err.println("Bad log entry (or problem with regex?):");
+                String response = matcher.nextToken(" \t");
+                String bytes = matcher.nextToken(" \t");
+                matcher.nextToken("\"");
+                String referer = matcher.nextToken();
+                matcher.nextToken();
+//                String browser = matcher.nextToken();
 
-                return;
+                //System.out.println( ip + " " + date  + " " + request + " "  + response + " "  + bytes + " "  + browser );
+                logRepository.save(new LogEntity(ip, date, response, bytes));
+            }
+            br.close();
 
-            }*//*
-
-            System.out.println("IP Address: " + matcher.group(1));
-
-            System.out.println("Date&Time: " + matcher.group(4));
-
-            System.out.println("Request: " + matcher.group(5));
-
-            System.out.println("Response: " + matcher.group(6));
-
-            System.out.println("Bytes Sent: " + matcher.group(7));
-
-            if (!matcher.group(8).equals("-"))
-
-                System.out.println("Referer: " + matcher.group(8));
-
-            System.out.println("Browser: " + matcher.group(9));*/
-
-            System.out.println(lines.get(index));
-            index++;
-        }catch(IOException e){
-        e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        long endTime = System.currentTimeMillis();
+        long difference = endTime - beginTime;
+        System.out.println(Thread.currentThread().getName() + "lasted for " + String.valueOf(difference) + " sec");
     }
+
+    public LogRepository getLogRepository() {
+        return logRepository;
     }
+
 }
