@@ -57,4 +57,8 @@ public class ServiceImpl implements Service {
         return numberOfBytes;
     }
 
+    @Override
+    public void save(LogEntity entity) {
+        logRepository.save(entity);
+    }
 }

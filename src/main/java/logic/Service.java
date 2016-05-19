@@ -16,4 +16,6 @@ public interface Service {
     List<LogEntity> findByIp(String ip);
 
     int findBytesByIp(String ip);
+
+    public void save(LogEntity entity);
 }

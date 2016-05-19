@@ -2,7 +2,9 @@ package logic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -17,11 +19,11 @@ import java.util.zip.GZIPInputStream;
 public class Unzipper implements Runnable{
 
     InputStream inputStream;
-    LogRepository logRepository;
+    Service service;
 
-    public Unzipper(InputStream inputStream, LogRepository logRepository) {
+    public Unzipper(InputStream inputStream, Service service) {
         this.inputStream = inputStream;
-        this.logRepository = logRepository;
+        this.service = service;
     }
 
     @Override
@@ -53,7 +55,7 @@ public class Unzipper implements Runnable{
 //                String browser = matcher.nextToken();
 
                 //System.out.println( ip + " " + date  + " " + request + " "  + response + " "  + bytes + " "  + browser );
-                logRepository.save(new LogEntity(ip, date, response, bytes));
+                service.save(new LogEntity(ip, date, response, bytes));
             }
             br.close();
 
@@ -65,8 +67,5 @@ public class Unzipper implements Runnable{
         System.out.println(Thread.currentThread().getName() + "lasted for " + String.valueOf(difference) + " sec");
     }
 
-    public LogRepository getLogRepository() {
-        return logRepository;
-    }
 
 }

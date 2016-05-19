@@ -17,11 +17,11 @@ import java.util.concurrent.Executors;
 public class LogController {
 
     @Autowired
-    ServiceImpl service;
+    Service service;
 
     @RequestMapping(value = "/log/{id}", method = RequestMethod.GET)
     public String findLogById(@PathVariable Long id) {
-        return service.findById(id).toString();
+       return service.findById(id).toString();
     }
 
     @RequestMapping(value = "/{ip}/print", method = RequestMethod.GET)
@@ -29,17 +29,18 @@ public class LogController {
         String result = "<html><head></head><body>";
         for (LogEntity e : service.findByIp(ip)) {
             result += e.toString();
-            result += "<br>";
+            result +="<br>";
         }
-        result += "</body></html>";
+        result+="</body></html>";
         return result;
     }
-
     @RequestMapping(value = "/{ip}/bytes", method = RequestMethod.GET)
     public String findBytesByIp(@PathVariable String ip) {
         String result = "<html><head></head><body>";
-        result += "Log with IP " + ip + " has " + service.findBytesByIp(ip) + " bytes";
-        result += "</body></html>";
+
+            result +="Log with IP "+ ip + " has " +service.findBytesByIp(ip) + " bytes";
+
+        result+="</body></html>";
         return result;
     }
 
@@ -52,28 +53,24 @@ public class LogController {
             result += e.toString();
             result += "<br>";
         }
-        result += "</body></html>";
+        result+="</body></html>";
         return result;
     }
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    String upload(@RequestParam("datafile") MultipartFile[] uploadFiles) {
-        try {
-            ExecutorService executor = Executors.newFixedThreadPool(5);
-            for (MultipartFile file : uploadFiles) {
-                Unzipper unzipper = new Unzipper(file.getInputStream(), service.upload());
-                unzipper.getLogRepository();
-
-                executor.execute(unzipper);
+    public @ResponseBody String upload(@RequestParam("datafile") MultipartFile[] uploadFiles) {
+            try {
+                ExecutorService executor = Executors.newFixedThreadPool(5);
+                for (MultipartFile file : uploadFiles) {
+                    Unzipper unzipper = new Unzipper(file.getInputStream(), service);
+                    executor.execute(unzipper);
+                }
+                executor.shutdown();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            executor.shutdown();
-        } catch (Exception e) {
-            e.printStackTrace();
+            return "You have successfully uploaded your file!";
         }
-        return "You have successfully uploaded your file!";
     }
-}
 
 
