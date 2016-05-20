@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html ng-app="logApp">
+<head>
+    <meta charset="utf-8"/>
+    <title>Angular.js JSON Fetching Example</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+    <script>
+        var logApp = angular.module('logApp', []);
+        logApp.controller('logCtrl', function ($scope, $http){
+            $http.get('/entity/2').success(
+                    function(data) {
+                $scope.log = data;
+            });
+        });
+    </script>
+</head>
+<body ng-controller="logCtrl">
+<h2>Angular.js JSON Fetching Example</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>IP</th>
+        <th>Date</th>
+        <th>Request</th>
+        <th>Response</th>
+        <th>Browser</th>
+    </tr>
+    <tr >
+        <td>{{log.id}}</td>
+        <td>{{log.ip}}</td>
+        <td>{{log.date}}</td>
+        <td>{{log.request}}</td>
+        <td>{{log.response}}</td>
+        <td>{{log.browser}}</td>
+
+    </tr>
+</table>
+</body>
+</html>

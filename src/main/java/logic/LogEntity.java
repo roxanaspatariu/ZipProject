@@ -1,6 +1,7 @@
 package logic;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by V3790147 on 5/16/2016.
@@ -8,7 +9,7 @@ import javax.persistence.*;
 
 
 @Entity
-public class LogEntity {
+public class LogEntity implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

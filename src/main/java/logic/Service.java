@@ -18,4 +18,8 @@ public interface Service {
     int findBytesByIp(String ip);
 
     public void save(LogEntity entity);
+
+    public void displayByIp(String ip);
+
+    List<LogEntity> findAll();
 }
