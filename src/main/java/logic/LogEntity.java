@@ -9,16 +9,23 @@ import java.io.Serializable;
 
 
 @Entity
+@Table(name = "logs")
 public class LogEntity implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    @Column(nullable = false)
     private String ip;
+    @Column
     private String date;
+    @Column
     private String request;
+    @Column
     private String response;
+    @Column
     private String bytesSent;
+    @Column
     private String browser;
 
     public LogEntity() {
