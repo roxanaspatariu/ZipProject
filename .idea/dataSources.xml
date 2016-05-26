@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="1424637003">
+    <data-source source="LOCAL" name="SQL Server (Microsoft) - Users@localhost" uuid="ec7e17f5-2ac8-4bc2-92fa-d35a0037f915">
+      <driver-ref>sqlserver.ms</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
+      <jdbc-url>jdbc:sqlserver://localhost\SQL2014:61793;databaseName=Users</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="SQL Server (Microsoft) - @localhost [2]" uuid="2c700f6c-dfbe-44af-b90a-fef94d79e988">
+      <driver-ref>sqlserver.ms</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
+      <jdbc-url>jdbc:sqlserver://localhost:1433</jdbc-url>
+    </data-source>
+  </component>
+</project>
