@@ -1,5 +1,7 @@
 package logic;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +19,7 @@ import java.util.concurrent.Executors;
 /**
  * Created by V3790147 on 5/16/2016.
  */
-@Controller
+@RestController
 @RequestMapping(value = "/")
 public class LogController {
 
@@ -25,9 +27,16 @@ public class LogController {
     Service service;
 
     @RequestMapping(value = "/log/{id}", method = RequestMethod.GET)
-    public String findLogById(@PathVariable Long id) {
-
-       return service.findById(id).toString();
+    public @ResponseBody String findLogById(@PathVariable Long id) {
+        LogEntity logEntity = service.findById(id);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String result=null;
+        try {
+           result = objectMapper.writerWithView(Views.Normal.class).writeValueAsString(logEntity);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     @RequestMapping(value = "/{ip}/print", method = RequestMethod.GET)
@@ -87,7 +96,8 @@ public class LogController {
     }
 */
     @RequestMapping(value = "/entity/{id}")
-    public @ResponseBody LogEntity find(@PathVariable Long id){
+    @JsonView(Views.Normal.class)
+    public LogEntity find(@PathVariable Long id){
         return service.findById(id);
     }
 
@@ -99,7 +109,8 @@ public class LogController {
 
 
     @RequestMapping(value = "/findAll", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<LogEntity> find(){
+    @JsonView(Views.Normal.class)
+    public List<LogEntity> find(){
         return service.findAll();
     }
 

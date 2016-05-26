@@ -1,5 +1,9 @@
 package logic;
 
+
+
+import com.fasterxml.jackson.annotation.JsonView;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -14,18 +18,31 @@ public class LogEntity implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonView(Views.Normal.class)
     private long id;
+
     @Column(nullable = false)
+    @JsonView(Views.Normal.class)
     private String ip;
+
     @Column
+    @JsonView(Views.Extended.class)
     private String date;
+
     @Column
+    @JsonView(Views.Normal.class)
     private String request;
+
     @Column
+    @JsonView(Views.Normal.class)
     private String response;
+
     @Column
+    @JsonView(Views.Extended.class)
     private String bytesSent;
+
     @Column
+    @JsonView(Views.Extended.class)
     private String browser;
 
     public LogEntity() {
