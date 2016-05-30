@@ -33,6 +33,20 @@
                 newTableName="state" newColumnName="id" newColumnDataType="char(2)"/>
     </changeSet>
 
+    <changeSet id="9" author="nvoxland">
+        <createTable tableName="logs">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ip" type="varchar(50)"/>
+            <column name="date" type="varchar(50)"/>
+            <column name="request" type="varchar(50)"/>
+            <column name="response" type="varchar(50)"/>
+            <column name="bytes_sent" type="varchar(50)"/>
+            <column name="browser" type="varchar(50)"/>
+        </createTable>
+    </changeSet>
+<!--
     <changeSet id="4" author="nvoxland">
         <addColumn tableName="logs">
             <column name="username" type="varchar(8)"/>
@@ -42,6 +56,6 @@
     <changeSet id="5" author="nvoxland">
         <dropColumn tableName="logs"
                     columnName="username"/>
-    </changeSet>
+    </changeSet>-->
 
 </databaseChangeLog>

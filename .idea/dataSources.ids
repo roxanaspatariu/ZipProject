@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="SQL Server (Microsoft) - Users@localhost" uuid="ec7e17f5-2ac8-4bc2-92fa-d35a0037f915">
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
+  </data-source>
+  <data-source name="SQL Server (Microsoft) - @localhost [2]" uuid="2c700f6c-dfbe-44af-b90a-fef94d79e988">
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
+  </data-source>
+</component>

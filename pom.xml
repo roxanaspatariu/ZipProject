@@ -100,16 +100,17 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <plugin>
+           <!-- <plugin>
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <version>3.0.5</version>
-                <configuration>
-                    <propertyFileWillOverride>true</propertyFileWillOverride>
+                &lt;!&ndash;<configuration>
+                   &lt;!&ndash;
                     <propertyFile>src/main/resources/liquibase/liquibase.properties</propertyFile>
                     <changeLogFile>src/main/resources/liquibase/db.changelog.xml</changeLogFile>
                     <driver>com.mysql.jdbc.Driver</driver>
-                </configuration>
+                    <propertyFileWillOverride>true</propertyFileWillOverride>&ndash;&gt;
+                </configuration>&ndash;&gt;
                 <executions>
                     <execution>
                         <goals>
@@ -124,7 +125,7 @@
                         <version>5.1.6</version>
                     </dependency>
                 </dependencies>
-            </plugin>
+            </plugin>-->
         </plugins>
     </build>
 
