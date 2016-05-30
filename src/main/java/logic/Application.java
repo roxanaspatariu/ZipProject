@@ -1,5 +1,6 @@
 package logic;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -11,7 +12,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.sql.DataSource;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.zip.GZIPInputStream;
@@ -23,10 +27,15 @@ import java.util.zip.GZIPInputStream;
 @SpringBootApplication
 public class Application{
 
-
     public static void main(String[] args) {
         ApplicationContext ctx = SpringApplication.run(Application.class, args);
+        String[] beanNames = ctx.getBeanDefinitionNames();
+        Arrays.sort(beanNames);
+        for (String beanName : beanNames) {
+            System.out.println(beanName);
+        }
     }
+
 
 
 
