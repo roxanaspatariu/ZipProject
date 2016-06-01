@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Title</title>
+</head>
+<body>
+<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+<form action="upload"
+      enctype="multipart/form-data" method="post">
+
+    <p>
+        Please specify a file, or a set of files:<br/>
+        <input type="file" name="datafile" multiple="multiple" />
+
+    </p>
+    <div>
+        <input type="submit" value="Upload" />
+    </div>
+</form>
+</body>
+</html>

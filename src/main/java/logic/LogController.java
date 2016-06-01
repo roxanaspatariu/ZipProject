@@ -18,11 +18,12 @@ import java.util.concurrent.Executors;
  * Created by V3790147 on 5/16/2016.
  */
 @Controller
-@RequestMapping(value = "/")
+@RequestMapping(value = "/index")
 public class LogController {
 
     @Autowired
     Service service;
+
 
     @RequestMapping(value = "/log/{id}", method = RequestMethod.GET)
     public String findLogById(@PathVariable Long id) {
@@ -91,11 +92,11 @@ public class LogController {
         return service.findById(id);
     }
 
-    @RequestMapping(value = "/entity/{ip}/print")
+   /* @RequestMapping(value = "/entity/{ip}/print")
     public String display(@PathVariable String ip){
         //service.displayByIp(ip);
         return "hello";
-    }
+    }*/
 
 
     @RequestMapping(value = "/findAll", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
